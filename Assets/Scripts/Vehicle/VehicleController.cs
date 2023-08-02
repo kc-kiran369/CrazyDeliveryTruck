@@ -10,6 +10,7 @@ namespace Gameplay.Vehicle
         [field: SerializeField] public float MaxSteetAngle { get; private set; } = 30.0f;
 
         [SerializeField] private GameObject CenterOfMass;
+        [SerializeField] private SimpleInputNamespace.SteeringWheel steeringWheel;
 
         [Header("WheelColliders")]
 
@@ -17,6 +18,12 @@ namespace Gameplay.Vehicle
         [SerializeField] WheelCollider FrontRight_WheelCollider;
         [SerializeField] WheelCollider RearLeft_WheelCollider;
         [SerializeField] WheelCollider RearRight_WheelCollider;
+
+        [Header("WheelTransforms")]
+        [SerializeField] Transform FrontLeft_Wheel;
+        [SerializeField] Transform FrontRight_Wheel;
+        [SerializeField] Transform RearLeft_Wheel;
+        [SerializeField] Transform RearRight_Wheel;
 
         private float _steerInput;
         private float _accelerationInput;
@@ -38,13 +45,13 @@ namespace Gameplay.Vehicle
             SteerBehaviour();
             AccelerationBehaviour();
 
-            UpdateWheel(FrontLeft_WheelCollider);
-            UpdateWheel(FrontRight_WheelCollider);
-            UpdateWheel(RearLeft_WheelCollider);
-            UpdateWheel(RearRight_WheelCollider);
+            UpdateWheel(FrontLeft_WheelCollider, FrontLeft_Wheel);
+            UpdateWheel(FrontRight_WheelCollider, FrontRight_Wheel);
+            UpdateWheel(RearLeft_WheelCollider, RearLeft_Wheel);
+            UpdateWheel(RearRight_WheelCollider, RearRight_Wheel);
         }
 
-        public void SetInputData(Vector2 Horizontal, Vector3 Vertical)
+        public void SetInputData(Vector3 Vertical)
         {
             CalculateInput();
         }
@@ -52,7 +59,9 @@ namespace Gameplay.Vehicle
         private void CalculateInput()
         {
             _accelerationInput = Input.GetAxis("Vertical");
-            _steerInput = Input.GetAxis("Horizontal");
+
+            //Steeting input retrieved from steering wheel class
+            _steerInput = steeringWheel.Value;
 
             if (Input.GetKey(KeyCode.Space)) BrakeBehaviour();
             if (Input.GetKeyUp(KeyCode.Space)) UnBrakeBehaviour();
@@ -87,13 +96,13 @@ namespace Gameplay.Vehicle
             FrontRight_WheelCollider.brakeTorque = 0;
         }
 
-        private void UpdateWheel(WheelCollider wheelCollider)
+        private void UpdateWheel(WheelCollider wheelCollider, Transform wheelTransform)
         {
             Vector3 position;
             Quaternion rotation;
             wheelCollider.GetWorldPose(out position, out rotation);
 
-            wheelCollider.transform.rotation = rotation * Quaternion.Euler(0, 0, 90);
+            wheelTransform.rotation = rotation * Quaternion.Euler(0, 0, 0);
         }
 
         public float GetSpeed() => _rigidbody.velocity.magnitude;

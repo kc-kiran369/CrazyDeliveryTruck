@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
     {
         _inputAsset = new();
         _inputAsset.Vehicle.Move.performed += MovePerformed;
-        _inputAsset.Vehicle.Look.performed += LookPerformed;
+        //_inputAsset.Vehicle.Look.performed += LookPerformed;
         _inputAsset.Vehicle.Break.performed += BrakePerformed;
     }
 
