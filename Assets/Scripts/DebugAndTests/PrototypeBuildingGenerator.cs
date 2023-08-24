@@ -6,12 +6,12 @@ using UnityEngine;
 /// </summary>
 public class PrototypeBuildingGenerator : MonoBehaviour
 {
-    [SerializeField] GameObject Building;
+    [SerializeField] GameObject[] Buildings;
 
     public int Row = 10;
     public int Column = 10;
 
-    public int DistanceBetweenHouses = 10;
+    public int DistanceBetweenHouses = 50;
     public int OffetFromOrigin = 10;
 
     private void Start()
@@ -20,8 +20,9 @@ public class PrototypeBuildingGenerator : MonoBehaviour
         {
             for (int j = 0; j < Column; j++)
             {
-                GameObject spawnedGameObject = Instantiate(Building, new Vector3(i * DistanceBetweenHouses + OffetFromOrigin, 0, j * DistanceBetweenHouses + OffetFromOrigin), Quaternion.identity, transform);
-                spawnedGameObject.transform.localScale = spawnedGameObject.transform.localScale + new Vector3(1 * Random.Range(1.0f, 3.0f), Random.Range(3, 15), 1 * Random.Range(1.0f, 3.0f));
+                GameObject spawnedGameObject = Instantiate(Buildings[Random.Range(0, Buildings.Length )], new Vector3(i * DistanceBetweenHouses + OffetFromOrigin, 0, j * DistanceBetweenHouses + OffetFromOrigin), Quaternion.identity, transform);
+                spawnedGameObject.transform.localScale = Vector3.one * 10;
+                spawnedGameObject.AddComponent<BoxCollider>();
             }
         }
     }

@@ -20,10 +20,11 @@ public class CheckPointManager : MonoBehaviour
     private void OnAnyPointReached()
     {
         ReachedCheckPoints++;
-        
+
         if (ReachedCheckPoints >= TotalCheckPoints)
         {
             print("Level Complete");
+            MessageBox.Singleton.AddMessage("Level Complete", 3.0f);
         }
     }
 }

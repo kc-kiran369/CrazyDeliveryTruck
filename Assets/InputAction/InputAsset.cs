@@ -33,7 +33,7 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
                     ""id"": ""7ec18b87-13f4-408a-8216-6f41113471eb"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -42,7 +42,7 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
                     ""id"": ""f446bce0-591d-4aaa-950c-d5c027ea54c1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -112,9 +112,42 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""AndroidMove"",
+                    ""id"": ""3b67224e-76d2-4cb7-b62e-142ed2ce96cb"",
+                    ""path"": ""2DVector(mode=1)"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""f073cd5e-3c51-4794-9125-bdf807c272dc"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""28868319-1ed4-4797-a925-54dd27160b7d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""67c0ba7a-e440-4b2c-9ee4-63de2408d54d"",
-                    ""path"": ""<Joystick>/stick/left"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

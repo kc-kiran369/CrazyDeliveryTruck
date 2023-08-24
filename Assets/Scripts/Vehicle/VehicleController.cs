@@ -4,13 +4,15 @@ namespace Gameplay.Vehicle
 {
     public class VehicleController : MonoBehaviour, IVehicle
     {
+        public static VehicleController VehicleControllerInstance { get; private set; }
+
         [Header("VehicleParameters")]
         [field: SerializeField] public float MotorForce = 1000.0f;
         [field: SerializeField] public float BreakForce { get; private set; } = 800.0f;
         [field: SerializeField] public float MaxSteetAngle { get; private set; } = 30.0f;
+        [field: SerializeField] public int MaxSpeed { get; private set; } = 10;
 
         [SerializeField] private GameObject CenterOfMass;
-        [SerializeField] private SimpleInputNamespace.SteeringWheel steeringWheel;
 
         [Header("WheelColliders")]
 
@@ -25,9 +27,13 @@ namespace Gameplay.Vehicle
         [SerializeField] Transform RearLeft_Wheel;
         [SerializeField] Transform RearRight_Wheel;
 
-        private float _steerInput;
-        private float _accelerationInput;
         private Rigidbody _rigidbody;
+
+        private void Awake()
+        {
+            if (VehicleControllerInstance == null) VehicleControllerInstance = this;
+            else Destroy(gameObject);
+        }
 
         private void Start()
         {
@@ -35,52 +41,29 @@ namespace Gameplay.Vehicle
             _rigidbody.centerOfMass = CenterOfMass.transform.localPosition;
         }
 
-        private void Update()
+        public void SteerBehaviour(float steeringWheelValue)
         {
-            CalculateInput();
-        }
-
-        private void FixedUpdate()
-        {
-            SteerBehaviour();
-            AccelerationBehaviour();
-
-            UpdateWheel(FrontLeft_WheelCollider, FrontLeft_Wheel);
-            UpdateWheel(FrontRight_WheelCollider, FrontRight_Wheel);
-            UpdateWheel(RearLeft_WheelCollider, RearLeft_Wheel);
-            UpdateWheel(RearRight_WheelCollider, RearRight_Wheel);
-        }
-
-        public void SetInputData(Vector3 Vertical)
-        {
-            CalculateInput();
-        }
-
-        private void CalculateInput()
-        {
-            _accelerationInput = Input.GetAxis("Vertical");
-
-            //Steeting input retrieved from steering wheel class
-            _steerInput = steeringWheel.Value;
-
-            if (Input.GetKey(KeyCode.Space)) BrakeBehaviour();
-            if (Input.GetKeyUp(KeyCode.Space)) UnBrakeBehaviour();
-        }
-
-        void SteerBehaviour()
-        {
-            float steerAngle = MaxSteetAngle * _steerInput;
+            float steerAngle = MaxSteetAngle * steeringWheelValue;
             FrontLeft_WheelCollider.steerAngle = steerAngle;
             FrontRight_WheelCollider.steerAngle = steerAngle;
         }
 
-        void AccelerationBehaviour()
+        public void AccelerationBehaviour(float vertical)
         {
-            RearLeft_WheelCollider.motorTorque = _accelerationInput * (MotorForce / 2.0f);
-            RearRight_WheelCollider.motorTorque = _accelerationInput * (MotorForce / 2.0f);
+           // if (GetSpeed() > MaxSpeed) return;
+            if (vertical == 0.0f)
+            {
+                RearLeft_WheelCollider.motorTorque = 0;
+                RearRight_WheelCollider.motorTorque = 0;
+            }
+            else
+            {
+                RearLeft_WheelCollider.motorTorque = vertical * (MotorForce / 2.0f);
+                RearRight_WheelCollider.motorTorque = vertical * (MotorForce / 2.0f);
+            }
         }
 
-        void BrakeBehaviour()
+        public void BrakeBehaviour()
         {
             FrontLeft_WheelCollider.brakeTorque = BreakForce;
             FrontRight_WheelCollider.brakeTorque = BreakForce;
@@ -88,12 +71,20 @@ namespace Gameplay.Vehicle
             RearRight_WheelCollider.brakeTorque = BreakForce;
         }
 
-        void UnBrakeBehaviour()
+        public void UnBrakeBehaviour()
         {
             RearLeft_WheelCollider.brakeTorque = 0;
             RearRight_WheelCollider.brakeTorque = 0;
             FrontLeft_WheelCollider.brakeTorque = 0;
             FrontRight_WheelCollider.brakeTorque = 0;
+        }
+
+        public void UpdateAllWheels()
+        {
+            UpdateWheel(FrontLeft_WheelCollider, FrontLeft_Wheel);
+            UpdateWheel(FrontRight_WheelCollider, FrontRight_Wheel);
+            UpdateWheel(RearLeft_WheelCollider, RearLeft_Wheel);
+            UpdateWheel(RearRight_WheelCollider, RearRight_Wheel);
         }
 
         private void UpdateWheel(WheelCollider wheelCollider, Transform wheelTransform)
