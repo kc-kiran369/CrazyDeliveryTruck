@@ -50,7 +50,7 @@ namespace Gameplay.Vehicle
 
         public void AccelerationBehaviour(float vertical)
         {
-           // if (GetSpeed() > MaxSpeed) return;
+            if (GetSpeed() > MaxSpeed) return;
             if (vertical == 0.0f)
             {
                 RearLeft_WheelCollider.motorTorque = 0;

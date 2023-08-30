@@ -5,6 +5,8 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager LevelManagerInstance { get; private set; }
 
+    [SerializeField] CheckPointManager checkPointManager;
+
     private void Awake()
     {
         if (LevelManagerInstance == null)
@@ -16,6 +18,18 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+    }
+
+    private void Start()
+    {
+
+        OnLevelStart();
+    }
+
+    void OnLevelStart()
+    {
+        MessageBox.Singleton.AddMessage($"Reach {checkPointManager.TotalCheckPoints} checkpoints to complete this level.", 3.0f);
     }
 
     public void LoadLevelByIndex(int index)

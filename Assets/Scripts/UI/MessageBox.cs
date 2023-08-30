@@ -43,7 +43,7 @@ public class MessageBox : MonoBehaviour
     public void AddMessage(string message, float time)
     {
         _messages.Enqueue(new Message() { MessageText = message, Time = time });
-        print($"Message Added : {message}");
+        //print($"Message Added : {message}");
         if (MessageBoxCurrentState == MessageBoxState.Disabled)
             StartCoroutine(ShowMessages());
     }

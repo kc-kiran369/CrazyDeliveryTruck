@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class CheckPointManager : MonoBehaviour
 {
-    public static CheckPointBehaviour CheckPointBehaviour;
-
     [field: SerializeField] public uint TotalCheckPoints { get; private set; }
     [field: SerializeField] public uint ReachedCheckPoints { get; private set; } = 0;
 

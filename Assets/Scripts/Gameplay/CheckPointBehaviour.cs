@@ -1,8 +1,9 @@
 using UnityEngine;
+using System;
 
 public class CheckPointBehaviour : MonoBehaviour
 {
-    public static event System.Action OnAnyPointReached;
+    public static event Action OnAnyPointReached;
 
     private void OnTriggerEnter(Collider collider)
     {

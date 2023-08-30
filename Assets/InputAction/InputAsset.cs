@@ -60,7 +60,7 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
                     ""name"": ""KeyboardMove"",
                     ""id"": ""24733dd1-9d37-49af-a05f-a4354ff13c95"",
                     ""path"": ""2DVector(mode=2)"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
